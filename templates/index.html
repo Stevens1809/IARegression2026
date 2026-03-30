@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- Application de prédiction de la charge d'assurance -->
+<html lang="en">
+<head>
+    <!-- Définit le codage des caractères en UTF-8 -->
+    <meta charset="UTF-8">
+    <!-- Rend la page responsive sur les appareils mobiles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Prediction Assurance</title>
+</head>
+<!-- Corps de la page avec fond clair -->
+<body class="bg-light">
+<!-- Conteneur principal avec padding vertical -->
+    <div class="container py-5">
+        <!-- Ligne flexbox: centrage horizontal et vertical -->
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <!-- Colonne responsive: 12 unités mobile, 10 tablet, 7 desktop -->
+            <div class="col-12 col-md-10 col-lg-7">
+                <!-- Carte avec ombre pour l'effet de profondeur -->
+                <div class="card shadow-lg main-card">
+                    <!-- Corps de la carte avec padding -->
+                    <div class="card-body p-4 p-md-5">
+                        <!-- Titre centré: Prédiction de la charge d'assurance -->
+                        <h2 class="text-center mb-4">Prediction de la charge d'Assurance</h2>
+                        <!-- Formulaire POST qui envoie les données au serveur Flask -->
+                        <form action="{{url_for('predict')}}" method="post">
+                           <!-- Champ de saisie pour l'âge -->
+                           <div class="mb-3">
+                                <label for="age" class="form-label">Âge</label>
+                                <input type="text" class="form-control" name="age" id="age" placeholder="Ex.: 25" required>
+                            </div>
+                            
+                            <!-- Sélecteur pour le sexe (0=Féminin, 1=Masculin) -->
+                            <div class="mb-3">
+                                <label for="sexe" class="form-label">Sexe</label>
+                                <select class="form-select" name="sexe" required>
+                                    <option value="" selected disabled>Choisir</option>
+                                    <option value="0">Féminin</option>
+                                    <option value="1">Masculin</option>
+                                </select>
+                            </div>
+
+                            <!-- Champ de saisie pour l'indice de masse corporelle (BMI/IMC) -->
+                            <div class="mb-3">
+                                <label for="bmi" class="form-label">BMI (IMC)</label>
+                                <input type="text" class="form-control" name="bmi" id="bmi" placeholder="Ex.: 168.6" required>
+                            </div>
+
+                            <!-- Champ de saisie pour le nombre d'enfants -->
+                            <div class="mb-3">
+                                <label for="enfant" class="form-label">Nombre d'enfants</label>
+                                <input type="text" class="form-control" name="enfant" id="enfant" placeholder="Ex.: 2" required>
+                            </div>
+
+                            <!-- Rangée contenant deux sélecteurs côte à côte -->
+                            <div class="row">
+
+                                <!-- Sélecteur pour le statut de fumeur (0=Non, 1=Oui) - occupe 6 colonnes sur tablette et plus -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="smoker" class="form-label">Fumeur</label>
+                                    <select class="form-select" name="smoker" required>
+                                        <option value="" selected disabled>Choisir</option>
+                                        <option value="0">Non</option>
+                                        <option value="1">Oui</option>
+                                    </select>
+                                </div>
+
+                                <!-- Sélecteur pour la région géographique (1-4) - occupe 6 colonnes sur tablette et plus -->
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="region" class="form-label">Région</label>
+                                    <select class="form-select" name="region" required>
+                                        <option value="" selected disabled>Choisir</option>
+                                        <option value="1">Southwest</option>
+                                        <option value="2">Southeast</option>
+                                        <option value="3">Northwest</option>
+                                        <option value="4">Northeast</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <!-- Bouton de soumission du formulaire, pleine largeur -->
+                            <div class="d-grid  mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">Prédire</button>
+                            </div>
+
+                        </form>
+
+                        {% if prediction_text %}
+                            <div class="alerte alert-succes mt-4 text-center result-box">
+                                {{ prediction_text }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
